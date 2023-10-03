@@ -14,7 +14,6 @@ public class Grafo {
 
     public void adicionarAresta(int origem, int destino, int peso) {
         matrizAdjacencia[origem][destino] = peso;
-        // Se o grafo for não direcionado, adicione também a aresta de destino para origem
         matrizAdjacencia[destino][origem] = peso;
     }
 
