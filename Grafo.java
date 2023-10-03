@@ -1,6 +1,6 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+package trabalho_grafo;
+
+import java.util.*;
 
 public class Grafo {
     private int numVertices;
@@ -35,6 +35,78 @@ public class Grafo {
             }
             System.out.println();
         }
+    }
+
+    public List<Integer> buscarCaminhoBFS(int inicio, int destino) {
+        boolean[] visitado = new boolean[numVertices];
+        int[] pai = new int[numVertices];
+        Arrays.fill(pai, -1);
+
+        Queue<Integer> fila = new LinkedList<>();
+        fila.add(inicio);
+        visitado[inicio] = true;
+
+        while (!fila.isEmpty()) {
+            int vertice = fila.poll();
+
+            for (int adjacente : listaAdjacencia[vertice]) {
+                if (!visitado[adjacente]) {
+                    fila.add(adjacente);
+                    visitado[adjacente] = true;
+                    pai[adjacente] = vertice;
+
+                    if (adjacente == destino) {
+                        // Encontrou o destino, construa e retorne o caminho
+                        List<Integer> caminho = new ArrayList<>();
+                        while (adjacente != -1) {
+                            caminho.add(adjacente);
+                            adjacente = pai[adjacente];
+                        }
+                        Collections.reverse(caminho);
+                        return caminho;
+                    }
+                }
+            }
+        }
+
+        // Não há caminho entre os vértices
+        return null;
+    }
+
+    public List<Integer> buscarCaminhoDFS(int inicio, int destino) {
+        boolean[] visitado = new boolean[numVertices];
+        int[] pai = new int[numVertices];
+        Arrays.fill(pai, -1);
+
+        Stack<Integer> pilha = new Stack<>();
+        pilha.push(inicio);
+        visitado[inicio] = true;
+
+        while (!pilha.isEmpty()) {
+            int vertice = pilha.pop();
+
+            for (int adjacente : listaAdjacencia[vertice]) {
+                if (!visitado[adjacente]) {
+                    pilha.push(adjacente);
+                    visitado[adjacente] = true;
+                    pai[adjacente] = vertice;
+
+                    if (adjacente == destino) {
+                        // Encontrou o destino, construa e retorne o caminho
+                        List<Integer> caminho = new ArrayList<>();
+                        while (adjacente != -1) {
+                            caminho.add(adjacente);
+                            adjacente = pai[adjacente];
+                        }
+                        Collections.reverse(caminho);
+                        return caminho;
+                    }
+                }
+            }
+        }
+
+        // Não há caminho entre os vértices
+        return null;
     }
 
 
